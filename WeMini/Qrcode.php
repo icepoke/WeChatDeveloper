@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------
 // | WeChatDeveloper
 // +----------------------------------------------------------------------
-// | 版权所有 2014~2018 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
+// | 版权所有 2014~2020 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
 // +----------------------------------------------------------------------
 // | 官方网站: http://think.ctolog.com
 // +----------------------------------------------------------------------
@@ -44,7 +44,11 @@ class Qrcode extends BasicWeChat
         $this->registerApi($url, __FUNCTION__, func_get_args());
         $data = ['path' => $path, 'width' => $width, 'auto_color' => $auto_color, 'line_color' => $line_color, 'is_hyaline' => $is_hyaline];
         $result = Tools::post($url, Tools::arr2json($data));
-        if (json_decode($result)) {
+        if (is_array($json = json_decode($result, true))) {
+            if (!$this->isTry && isset($json['errcode']) && in_array($json['errcode'], ['40014', '40001', '41001', '42001'])) {
+                [$this->delAccessToken(), $this->isTry = true];
+                return call_user_func_array([$this, $this->currentMethod['method']], $this->currentMethod['arguments']);
+            }
             return Tools::json2arr($result);
         }
         return is_null($outType) ? $result : $outType($result);
@@ -70,7 +74,11 @@ class Qrcode extends BasicWeChat
         $data = ['scene' => $scene, 'width' => $width, 'auto_color' => $auto_color, 'page' => $page, 'line_color' => $line_color, 'is_hyaline' => $is_hyaline];
         $this->registerApi($url, __FUNCTION__, func_get_args());
         $result = Tools::post($url, Tools::arr2json($data));
-        if (json_decode($result)) {
+        if (is_array($json = json_decode($result, true))) {
+            if (!$this->isTry && isset($json['errcode']) && in_array($json['errcode'], ['40014', '40001', '41001', '42001'])) {
+                [$this->delAccessToken(), $this->isTry = true];
+                return call_user_func_array([$this, $this->currentMethod['method']], $this->currentMethod['arguments']);
+            }
             return Tools::json2arr($result);
         }
         return is_null($outType) ? $result : $outType($result);
@@ -91,7 +99,11 @@ class Qrcode extends BasicWeChat
         $url = 'https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token=ACCESS_TOKEN';
         $this->registerApi($url, __FUNCTION__, func_get_args());
         $result = Tools::post($url, Tools::arr2json(['path' => $path, 'width' => $width]));
-        if (json_decode($result)) {
+        if (is_array($json = json_decode($result, true))) {
+            if (!$this->isTry && isset($json['errcode']) && in_array($json['errcode'], ['40014', '40001', '41001', '42001'])) {
+                [$this->delAccessToken(), $this->isTry = true];
+                return call_user_func_array([$this, $this->currentMethod['method']], $this->currentMethod['arguments']);
+            }
             return Tools::json2arr($result);
         }
         return is_null($outType) ? $result : $outType($result);

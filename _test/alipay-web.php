@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------
 // | WeChatDeveloper
 // +----------------------------------------------------------------------
-// | 版权所有 2014~2018 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
+// | 版权所有 2014~2020 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
 // +----------------------------------------------------------------------
 // | 官方网站: http://think.ctolog.com
 // +----------------------------------------------------------------------
@@ -24,14 +24,17 @@ $config['return_url'] = 'http://pay.thinkadmin.top/test/alipay-success.php';
 
 try {
     // 实例支付对象
-    $pay = We::AliPayWeb($config);
+    // $pay = We::AliPayWeb($config);
     // $pay = new \AliPay\Web($config);
+    $pay = \AliPay\Web::instance($config);
+
     // 参考链接：https://docs.open.alipay.com/api_1/alipay.trade.page.pay
     $result = $pay->apply([
         'out_trade_no' => time(), // 商户订单号
         'total_amount' => '1', // 支付金额
         'subject'      => '支付订单描述', // 支付订单描述
     ]);
+
     echo $result;
 } catch (Exception $e) {
     echo $e->getMessage();

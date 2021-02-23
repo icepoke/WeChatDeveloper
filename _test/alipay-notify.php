@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------
 // | WeChatDeveloper
 // +----------------------------------------------------------------------
-// | 版权所有 2014~2018 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
+// | 版权所有 2014~2020 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
 // +----------------------------------------------------------------------
 // | 官方网站: http://think.ctolog.com
 // +----------------------------------------------------------------------
@@ -20,8 +20,10 @@ $config = include "./alipay.php";
 
 try {
     // 实例支付对象
-    $pay = \We::AliPayApp($config);
+    // $pay = \We::AliPayApp($config);
     // $pay = new \AliPay\App($config);
+    $pay = \AliPay\App::instance($config);
+
     $data = $pay->notify();
     if (in_array($data['trade_status'], ['TRADE_SUCCESS', 'TRADE_FINISHED'])) {
         // @todo 更新订单状态，支付完成

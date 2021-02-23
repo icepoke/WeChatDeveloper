@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------
 // | WeChatDeveloper
 // +----------------------------------------------------------------------
-// | 版权所有 2014~2018 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
+// | 版权所有 2014~2020 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
 // +----------------------------------------------------------------------
 // | 官方网站: http://think.ctolog.com
 // +----------------------------------------------------------------------
@@ -30,6 +30,17 @@ class Tools
      * @var null
      */
     public static $cache_path = null;
+
+    /**
+     * 缓存写入操作
+     * @var array
+     */
+    public static $cache_callable = [
+        'set' => null, // 写入缓存
+        'get' => null, // 获取缓存
+        'del' => null, // 删除缓存
+        'put' => null, // 写入文件
+    ];
 
     /**
      * 网络缓存
@@ -99,10 +110,11 @@ class Tools
         if (is_string($filename) && file_exists($filename)) {
             if (is_null($postname)) $postname = basename($filename);
             if (is_null($mimetype)) $mimetype = self::getExtMine(pathinfo($filename, 4));
-            if (function_exists('curl_file_create')) {
-                return curl_file_create($filename, $mimetype, $postname);
+            if (class_exists('CURLFile')) {
+                return new \CURLFile($filename, $mimetype, $postname);
+            } else {
+                return "@{$filename};filename={$postname};type={$mimetype}";
             }
-            return "@{$filename};filename={$postname};type={$mimetype}";
         }
         return $filename;
     }
@@ -154,13 +166,24 @@ class Tools
     }
 
     /**
+     * 解析XML文本内容
+     * @param string $xml
+     * @return boolean|mixed
+     */
+    public static function xml3arr($xml)
+    {
+        $state = xml_parse($parser = xml_parser_create(), $xml, true);
+        return xml_parser_free($parser) && $state ? self::xml2arr($xml) : false;
+    }
+
+    /**
      * 数组转xml内容
      * @param array $data
-     * @return null|string|string
+     * @return null|string
      */
     public static function arr2json($data)
     {
-        $json = json_encode(self::buildEnEmojiData($data), JSON_UNESCAPED_UNICODE);
+        $json = json_encode($data, JSON_UNESCAPED_UNICODE);
         return $json === '[]' ? '{}' : $json;
     }
 
@@ -338,6 +361,11 @@ class Tools
             $mycurl = new MyCurlFile((array)$value);
             $data[$key] = $mycurl->get();
             array_push(self::$cache_curl, $mycurl->tempname);
+        } elseif (is_array($value) && isset($value['datatype']) && $value['datatype'] === 'MY_CURL_FILE') {
+            $build = false;
+            $mycurl = new MyCurlFile($value);
+            $data[$key] = $mycurl->get();
+            array_push(self::$cache_curl, $mycurl->tempname);
         } elseif (is_string($value) && class_exists('CURLFile', false) && stripos($value, '@') === 0) {
             if (($filename = realpath(trim($value, '@'))) && file_exists($filename)) {
                 $build = false;
@@ -356,6 +384,9 @@ class Tools
      */
     public static function pushFile($name, $content)
     {
+        if (is_callable(self::$cache_callable['put'])) {
+            return call_user_func_array(self::$cache_callable['put'], func_get_args());
+        }
         $file = self::_getCacheName($name);
         if (!file_put_contents($file, $content)) {
             throw new LocalCacheException('local file write error.', '0');
@@ -373,8 +404,12 @@ class Tools
      */
     public static function setCache($name, $value = '', $expired = 3600)
     {
+        if (is_callable(self::$cache_callable['set'])) {
+            return call_user_func_array(self::$cache_callable['set'], func_get_args());
+        }
         $file = self::_getCacheName($name);
-        if (!file_put_contents($file, serialize(['name' => $name, 'value' => $value, 'expired' => time() + intval($expired)]))) {
+        $data = ['name' => $name, 'value' => $value, 'expired' => time() + intval($expired)];
+        if (!file_put_contents($file, serialize($data))) {
             throw new LocalCacheException('local cache error.', '0');
         }
         return $file;
@@ -387,8 +422,11 @@ class Tools
      */
     public static function getCache($name)
     {
+        if (is_callable(self::$cache_callable['get'])) {
+            return call_user_func_array(self::$cache_callable['get'], func_get_args());
+        }
         $file = self::_getCacheName($name);
-        if (file_exists($file) && ($content = file_get_contents($file))) {
+        if (file_exists($file) && is_file($file) && ($content = file_get_contents($file))) {
             $data = unserialize($content);
             if (isset($data['expired']) && (intval($data['expired']) === 0 || intval($data['expired']) >= time())) {
                 return $data['value'];
@@ -405,6 +443,9 @@ class Tools
      */
     public static function delCache($name)
     {
+        if (is_callable(self::$cache_callable['del'])) {
+            return call_user_func_array(self::$cache_callable['del'], func_get_args());
+        }
         $file = self::_getCacheName($name);
         return file_exists($file) ? unlink($file) : true;
     }

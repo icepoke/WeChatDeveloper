@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------
 // | WeChatDeveloper
 // +----------------------------------------------------------------------
-// | 版权所有 2014~2018 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
+// | 版权所有 2014~2020 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
 // +----------------------------------------------------------------------
 // | 官方网站: http://think.ctolog.com
 // +----------------------------------------------------------------------
@@ -21,11 +21,13 @@ try {
     $config = include "./config.php";
 
     // 3. 创建接口实例
-    $menu = new \WeChat\Menu($config);
+    // $menu = \We::WeChatMenu($config);
+    // $menu = new \WeChat\Menu($config);
+    $menu = \WeChat\Menu::instance($config);
 
     // 4. 获取菜单数据
     $result = $menu->get();
-    
+
     var_export($result);
 
 } catch (Exception $e) {

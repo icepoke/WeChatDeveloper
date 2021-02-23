@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------
 // | WeChatDeveloper
 // +----------------------------------------------------------------------
-// | 版权所有 2014~2018 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
+// | 版权所有 2014~2020 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
 // +----------------------------------------------------------------------
 // | 官方网站: http://think.ctolog.com
 // +----------------------------------------------------------------------
@@ -36,6 +36,11 @@ class BasicWePay
      */
     protected $params;
 
+    /**
+     * 静态缓存
+     * @var static
+     */
+    protected static $cache;
 
     /**
      * WeChat constructor.
@@ -69,6 +74,18 @@ class BasicWePay
         if ($this->config->get('sub_mch_id')) {
             $this->params->set('sub_mch_id', $this->config->get('sub_mch_id'));
         }
+    }
+
+    /**
+     * 静态创建对象
+     * @param array $config
+     * @return static
+     */
+    public static function instance(array $config)
+    {
+        $key = md5(get_called_class() . serialize($config));
+        if (isset(self::$cache[$key])) return self::$cache[$key];
+        return self::$cache[$key] = new static($config);
     }
 
     /**

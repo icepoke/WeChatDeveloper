@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------
 // | WeChatDeveloper
 // +----------------------------------------------------------------------
-// | 版权所有 2014~2018 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
+// | 版权所有 2014~2020 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
 // +----------------------------------------------------------------------
 // | 官方网站: http://think.ctolog.com
 // +----------------------------------------------------------------------
@@ -35,6 +35,19 @@ class Order extends BasicWePay
     public function create(array $options)
     {
         $url = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
+        return $this->callPostApi($url, $options, false, 'MD5');
+    }
+
+    /**
+     * 刷卡支付
+     * @param array $options
+     * @return array
+     * @throws \WeChat\Exceptions\InvalidResponseException
+     * @throws \WeChat\Exceptions\LocalCacheException
+     */
+    public function micropay(array $options)
+    {
+        $url = 'https://api.mch.weixin.qq.com/pay/micropay';
         return $this->callPostApi($url, $options, false, 'MD5');
     }
 
