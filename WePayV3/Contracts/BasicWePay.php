@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------
 // | WeChatDeveloper
 // +----------------------------------------------------------------------
-// | 版权所有 2014~2020 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
+// | 版权所有 2014~2022 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
 // +----------------------------------------------------------------------
 // | 官方网站: http://think.ctolog.com
 // +----------------------------------------------------------------------
@@ -71,6 +71,22 @@ abstract class BasicWePay
             throw new InvalidArgumentException("Missing Config -- [cert_public]");
         }
 
+        if (stripos($options['cert_public'], '-----BEGIN CERTIFICATE-----') === false) {
+            if (file_exists($options['cert_public'])) {
+                $options['cert_public'] = file_get_contents($options['cert_public']);
+            } else {
+                throw new InvalidArgumentException("File Non-Existent -- [cert_public]");
+            }
+        }
+
+        if (stripos($options['cert_private'], '-----BEGIN PRIVATE KEY-----') === false) {
+            if (file_exists($options['cert_private'])) {
+                $options['cert_private'] = file_get_contents($options['cert_private']);
+            } else {
+                throw new InvalidArgumentException("File Non-Existent -- [cert_private]");
+            }
+        }
+
         $this->config['appid'] = isset($options['appid']) ? $options['appid'] : '';
         $this->config['mch_id'] = $options['mch_id'];
         $this->config['mch_v3_key'] = $options['mch_v3_key'];
@@ -88,7 +104,7 @@ abstract class BasicWePay
      * @param array $config
      * @return static
      */
-    public static function instance(array $config)
+    public static function instance($config)
     {
         $key = md5(get_called_class() . serialize($config));
         if (isset(self::$cache[$key])) return self::$cache[$key];

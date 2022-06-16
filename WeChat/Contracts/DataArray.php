@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------
 // | WeChatDeveloper
 // +----------------------------------------------------------------------
-// | 版权所有 2014~2020 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
+// | 版权所有 2014~2022 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
 // +----------------------------------------------------------------------
 // | 官方网站: http://think.ctolog.com
 // +----------------------------------------------------------------------
@@ -77,6 +77,7 @@ class DataArray implements ArrayAccess
      * @param string $offset
      * @param string|array|null|integer $value
      */
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         if (is_null($offset)) {
@@ -91,6 +92,7 @@ class DataArray implements ArrayAccess
      * @param string $offset
      * @return bool
      */
+    #[\ReturnTypeWillChange]
     public function offsetExists($offset)
     {
         return isset($this->config[$offset]);
@@ -100,6 +102,7 @@ class DataArray implements ArrayAccess
      * 清理配置项
      * @param string|null $offset
      */
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset = null)
     {
         if (is_null($offset)) {
@@ -114,6 +117,7 @@ class DataArray implements ArrayAccess
      * @param string|null $offset
      * @return array|string|null
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset = null)
     {
         if (is_null($offset)) {

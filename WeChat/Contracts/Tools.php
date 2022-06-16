@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------
 // | WeChatDeveloper
 // +----------------------------------------------------------------------
-// | 版权所有 2014~2020 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
+// | 版权所有 2014~2022 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
 // +----------------------------------------------------------------------
 // | 官方网站: http://think.ctolog.com
 // +----------------------------------------------------------------------
@@ -99,7 +99,7 @@ class Tools
 
     /**
      * 创建CURL文件对象
-     * @param $filename
+     * @param mixed $filename
      * @param string $mimetype
      * @param string $postname
      * @return \CURLFile|string
@@ -159,16 +159,20 @@ class Tools
      */
     public static function xml2arr($xml)
     {
-        $entity = libxml_disable_entity_loader(true);
-        $data = (array)simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
-        libxml_disable_entity_loader($entity);
+        if (PHP_VERSION_ID < 80000) {
+            $backup = libxml_disable_entity_loader(true);
+            $data = (array)simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
+            libxml_disable_entity_loader($backup);
+        } else {
+            $data = (array)simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
+        }
         return json_decode(json_encode($data), true);
     }
 
     /**
      * 解析XML文本内容
      * @param string $xml
-     * @return boolean|mixed
+     * @return array|false
      */
     public static function xml3arr($xml)
     {
@@ -354,18 +358,18 @@ class Tools
     private static function _buildHttpData($data, $build = true)
     {
         if (!is_array($data)) return $data;
-        foreach ($data as $key => $value) if (is_object($value) && $value instanceof \CURLFile) {
+        foreach ($data as $key => $value) if ($value instanceof \CURLFile) {
             $build = false;
         } elseif (is_object($value) && isset($value->datatype) && $value->datatype === 'MY_CURL_FILE') {
             $build = false;
             $mycurl = new MyCurlFile((array)$value);
             $data[$key] = $mycurl->get();
-            array_push(self::$cache_curl, $mycurl->tempname);
+            self::$cache_curl[] = $mycurl->tempname;
         } elseif (is_array($value) && isset($value['datatype']) && $value['datatype'] === 'MY_CURL_FILE') {
             $build = false;
             $mycurl = new MyCurlFile($value);
             $data[$key] = $mycurl->get();
-            array_push(self::$cache_curl, $mycurl->tempname);
+            self::$cache_curl[] = $mycurl->tempname;
         } elseif (is_string($value) && class_exists('CURLFile', false) && stripos($value, '@') === 0) {
             if (($filename = realpath(trim($value, '@'))) && file_exists($filename)) {
                 $build = false;
@@ -447,7 +451,7 @@ class Tools
             return call_user_func_array(self::$cache_callable['del'], func_get_args());
         }
         $file = self::_getCacheName($name);
-        return file_exists($file) ? unlink($file) : true;
+        return !file_exists($file) || @unlink($file);
     }
 
     /**

@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------
 // | WeChatDeveloper
 // +----------------------------------------------------------------------
-// | 版权所有 2014~2020 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
+// | 版权所有 2014~2022 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
 // +----------------------------------------------------------------------
 // | 官方网站: http://think.ctolog.com
 // +----------------------------------------------------------------------
@@ -16,6 +16,7 @@ namespace WeMini;
 
 use WeChat\Contracts\BasicWeChat;
 use WeChat\Exceptions\InvalidResponseException;
+use WeChat\Exceptions\LocalCacheException;
 
 /**
  * 小程序图像处理
@@ -31,12 +32,11 @@ class Image extends BasicWeChat
      * @param string $img form-data 中媒体文件标识，有filename、filelength、content-type等信息，传这个则不用穿 img_url
      * @return array
      * @throws InvalidResponseException
-     * @throws \WeChat\Exceptions\LocalCacheException
+     * @throws LocalCacheException
      */
     public function aiCrop($img_url, $img)
     {
         $url = "https://api.weixin.qq.com/cv/img/aicrop?access_token=ACCESS_TOCKEN";
-        $this->registerApi($url, __FUNCTION__, func_get_args());
         return $this->callPostApi($url, ['img_url' => $img_url, 'img' => $img], true);
     }
 
@@ -46,12 +46,11 @@ class Image extends BasicWeChat
      * @param string $img form-data 中媒体文件标识，有filename、filelength、content-type等信息，传这个则不用穿 img_url
      * @return array
      * @throws InvalidResponseException
-     * @throws \WeChat\Exceptions\LocalCacheException
+     * @throws LocalCacheException
      */
     public function scanQRCode($img_url, $img)
     {
         $url = "https://api.weixin.qq.com/cv/img/qrcode?img_url=ENCODE_URL&access_token=ACCESS_TOCKEN";
-        $this->registerApi($url, __FUNCTION__, func_get_args());
         return $this->callPostApi($url, ['img_url' => $img_url, 'img' => $img], true);
     }
 
@@ -61,12 +60,11 @@ class Image extends BasicWeChat
      * @param string $img form-data 中媒体文件标识，有filename、filelength、content-type等信息，传这个则不用穿 img_url
      * @return array
      * @throws InvalidResponseException
-     * @throws \WeChat\Exceptions\LocalCacheException
+     * @throws LocalCacheException
      */
     public function superresolution($img_url, $img)
     {
         $url = "https://api.weixin.qq.com/cv/img/qrcode?img_url=ENCODE_URL&access_token=ACCESS_TOCKEN";
-        $this->registerApi($url, __FUNCTION__, func_get_args());
         return $this->callPostApi($url, ['img_url' => $img_url, 'img' => $img], true);
     }
 }

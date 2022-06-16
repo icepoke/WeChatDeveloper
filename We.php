@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------
 // | WeChatDeveloper
 // +----------------------------------------------------------------------
-// | 版权所有 2014~2020 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
+// | 版权所有 2014~2022 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
 // +----------------------------------------------------------------------
 // | 官方网站: http://think.ctolog.com
 // +----------------------------------------------------------------------
@@ -51,6 +51,8 @@ use WeChat\Exceptions\InvalidInstanceException;
  * @method \WeChat\Template WeChatTemplate($options = []) static 微信模板消息
  * @method \WeChat\User WeChatUser($options = []) static 微信粉丝管理
  * @method \WeChat\Wifi WeChatWifi($options = []) static 微信门店WIFI管理
+ * @method \WeChat\Draft WeChatDraft($options = []) static 微信草稿箱
+ * @method \WeChat\Freepublish WeChatFreepublish($options = []) static 微信发布能力
  *
  * ----- WeMini -----
  * @method \WeMini\Crypt WeMiniCrypt($options = []) static 小程序数据加密处理
@@ -66,6 +68,7 @@ use WeChat\Exceptions\InvalidInstanceException;
  * @method \WeMini\Plugs WeMiniPlugs($options = []) static 小程序插件管理
  * @method \WeMini\Poi WeMiniPoi($options = []) static 小程序地址管理
  * @method \WeMini\Qrcode WeMiniQrcode($options = []) static 小程序二维码管理
+ * @method \WeMini\Scheme WeMiniScheme($options = []) static 小程序 URL-Scheme
  * @method \WeMini\Search WeMiniSearch($options = []) static 小程序搜索
  * @method \WeMini\Security WeMiniSecurity($options = []) static 小程序内容安全
  * @method \WeMini\Soter WeMiniSoter($options = []) static 小程序生物认证
@@ -74,8 +77,9 @@ use WeChat\Exceptions\InvalidInstanceException;
  *
  * ----- WePay -----
  * @method \WePay\Bill WePayBill($options = []) static 微信商户账单及评论
- * @method \WePay\Coupon WePayCoupon($options = []) static 微信商户代金券
  * @method \WePay\Order WePayOrder($options = []) static 微信商户订单
+ * @method \WePay\Coupon WePayCoupon($options = []) static 微信商户代金券
+ * @method \WePay\Custom WePayCustom($options = []) static 微信商户海关
  * @method \WePay\Refund WePayRefund($options = []) static 微信商户退款
  * @method \WePay\Redpack WePayRedpack($options = []) static 微信红包支持
  * @method \WePay\Transfers WePayTransfers($options = []) static 微信商户打款到零钱
@@ -87,7 +91,7 @@ class We
      * 定义当前版本
      * @var string
      */
-    const VERSION = '1.2.27';
+    const VERSION = '1.2.36';
 
     /**
      * 静态配置

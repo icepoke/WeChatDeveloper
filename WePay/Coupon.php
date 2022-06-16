@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------
 // | WeChatDeveloper
 // +----------------------------------------------------------------------
-// | 版权所有 2014~2020 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
+// | 版权所有 2014~2022 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
 // +----------------------------------------------------------------------
 // | 官方网站: http://think.ctolog.com
 // +----------------------------------------------------------------------
@@ -33,7 +33,7 @@ class Coupon extends BasicWePay
     public function create(array $options)
     {
         $url = "https://api.mch.weixin.qq.com/mmpaymkttransfers/send_coupon";
-        return $this->callPostApi($url, $options, true);
+        return $this->callPostApi($url, $options, true, 'MD5');
     }
 
     /**

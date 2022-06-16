@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------
 // | WeChatDeveloper
 // +----------------------------------------------------------------------
-// | 版权所有 2014~2020 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
+// | 版权所有 2014~2022 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
 // +----------------------------------------------------------------------
 // | 官方网站: http://think.ctolog.com
 // +----------------------------------------------------------------------
@@ -14,8 +14,8 @@
 
 namespace WeChat;
 
-use WeChat\Contracts\Tools;
 use WeChat\Contracts\BasicWeChat;
+use WeChat\Contracts\Tools;
 use WeChat\Exceptions\InvalidResponseException;
 
 /**
@@ -99,7 +99,7 @@ class Media extends BasicWeChat
 
     /**
      * 上传图文消息内的图片获取URL
-     * @param string $filename
+     * @param mixed $filename
      * @return array
      * @throws Exceptions\LocalCacheException
      * @throws InvalidResponseException
@@ -113,7 +113,7 @@ class Media extends BasicWeChat
 
     /**
      * 新增其他类型永久素材
-     * @param string $filename 文件名称
+     * @param mixed $filename 文件名称
      * @param string $type 媒体文件类型(image|voice|video|thumb)
      * @param array $description 包含素材的描述信息
      * @return array

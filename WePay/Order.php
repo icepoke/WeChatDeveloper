@@ -3,7 +3,7 @@
 // +----------------------------------------------------------------------
 // | WeChatDeveloper
 // +----------------------------------------------------------------------
-// | 版权所有 2014~2020 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
+// | 版权所有 2014~2022 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
 // +----------------------------------------------------------------------
 // | 官方网站: http://think.ctolog.com
 // +----------------------------------------------------------------------
@@ -155,7 +155,7 @@ class Order extends BasicWePay
     public function queryAuthCode($authCode)
     {
         $url = 'https://api.mch.weixin.qq.com/tools/authcodetoopenid';
-        return $this->callPostApi($url, ['auth_code' => $authCode]);
+        return $this->callPostApi($url, ['auth_code' => $authCode], false, 'MD5', false);
     }
 
     /**
