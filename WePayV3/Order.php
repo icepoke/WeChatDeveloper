@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------
 // | 版权所有 2014~2022 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
 // +----------------------------------------------------------------------
-// | 官方网站: http://think.ctolog.com
+// | 官方网站: https://thinkadmin.top
 // +----------------------------------------------------------------------
 // | 开源协议 ( https://mit-license.org )
 // +----------------------------------------------------------------------
@@ -16,8 +16,6 @@ namespace WePayV3;
 
 use WeChat\Contracts\Tools;
 use WeChat\Exceptions\InvalidArgumentException;
-use WeChat\Exceptions\InvalidDecryptException;
-use WeChat\Exceptions\InvalidResponseException;
 use WePayV3\Contracts\BasicWePay;
 use WePayV3\Contracts\DecryptAes;
 
@@ -38,7 +36,7 @@ class Order extends BasicWePay
      * @param string $type 支付类型
      * @param array $data 支付参数
      * @return array
-     * @throws InvalidResponseException
+     * @throws \WeChat\Exceptions\InvalidResponseException
      */
     public function create($type, $data)
     {
@@ -75,7 +73,7 @@ class Order extends BasicWePay
      * 支付订单查询
      * @param string $orderNo 订单单号
      * @return array
-     * @throws InvalidResponseException
+     * @throws \WeChat\Exceptions\InvalidResponseException
      */
     public function query($orderNo)
     {
@@ -86,7 +84,7 @@ class Order extends BasicWePay
     /**
      * 支付通知
      * @return array
-     * @throws InvalidDecryptException
+     * @throws \WeChat\Exceptions\InvalidDecryptException
      */
     public function notify()
     {
@@ -102,5 +100,4 @@ class Order extends BasicWePay
         }
         return $data;
     }
-
 }

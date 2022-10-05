@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------
 // | 版权所有 2014~2022 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
 // +----------------------------------------------------------------------
-// | 官方网站: http://think.ctolog.com
+// | 官方网站: https://thinkadmin.top
 // +----------------------------------------------------------------------
 // | 开源协议 ( https://mit-license.org )
 // +----------------------------------------------------------------------
@@ -17,7 +17,6 @@ namespace WePayV3\Contracts;
 use WeChat\Contracts\Tools;
 use WeChat\Exceptions\InvalidArgumentException;
 use WeChat\Exceptions\InvalidResponseException;
-use WeChat\Exceptions\LocalCacheException;
 use WePayV3\Cert;
 
 /**
@@ -118,7 +117,7 @@ abstract class BasicWePay
      * @param string $jsondata 请求数据
      * @param bool $verify 是否验证
      * @return array
-     * @throws InvalidResponseException
+     * @throws \WeChat\Exceptions\InvalidResponseException
      */
     public function doRequest($method, $pathinfo, $jsondata = '', $verify = false)
     {
@@ -204,8 +203,8 @@ abstract class BasicWePay
      * @param string $sign 原签名值
      * @param string $serial 证书序号
      * @return int
-     * @throws InvalidResponseException
-     * @throws LocalCacheException
+     * @throws \WeChat\Exceptions\InvalidResponseException
+     * @throws \WeChat\Exceptions\LocalCacheException
      */
     protected function signVerify($data, $sign, $serial = '')
     {
@@ -222,7 +221,7 @@ abstract class BasicWePay
      * @param string $name
      * @param null|string $content
      * @return string
-     * @throws LocalCacheException
+     * @throws \WeChat\Exceptions\LocalCacheException
      */
     protected function tmpFile($name, $content = null)
     {

@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------
 // | 版权所有 2014~2022 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
 // +----------------------------------------------------------------------
-// | 官方网站: http://think.ctolog.com
+// | 官方网站: https://thinkadmin.top
 // +----------------------------------------------------------------------
 // | 开源协议 ( https://mit-license.org )
 // +----------------------------------------------------------------------
@@ -48,7 +48,7 @@ class DecryptAes
      * @param string $nonceStr AES GCM nonce
      * @param string $ciphertext AES GCM cipher text
      * @return string|bool      Decrypted string on success or FALSE on failure
-     * @throws InvalidDecryptException
+     * @throws \WeChat\Exceptions\InvalidDecryptException
      */
     public function decryptToString($associatedData, $nonceStr, $ciphertext)
     {

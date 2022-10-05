@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------
 // | 版权所有 2014~2022 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
 // +----------------------------------------------------------------------
-// | 官方网站: http://think.ctolog.com
+// | 官方网站: https://thinkadmin.top
 // +----------------------------------------------------------------------
 // | 开源协议 ( https://mit-license.org )
 // +----------------------------------------------------------------------
@@ -15,8 +15,6 @@
 namespace WeMini;
 
 use WeChat\Contracts\BasicWeChat;
-use WeChat\Exceptions\InvalidResponseException;
-use WeChat\Exceptions\LocalCacheException;
 
 /**
  * 小程序图像处理
@@ -31,8 +29,8 @@ class Image extends BasicWeChat
      * @param string $img_url 要检测的图片 url，传这个则不用传 img 参数。
      * @param string $img form-data 中媒体文件标识，有filename、filelength、content-type等信息，传这个则不用穿 img_url
      * @return array
-     * @throws InvalidResponseException
-     * @throws LocalCacheException
+     * @throws \WeChat\Exceptions\InvalidResponseException
+     * @throws \WeChat\Exceptions\LocalCacheException
      */
     public function aiCrop($img_url, $img)
     {
@@ -45,8 +43,8 @@ class Image extends BasicWeChat
      * @param string $img_url 要检测的图片 url，传这个则不用传 img 参数。
      * @param string $img form-data 中媒体文件标识，有filename、filelength、content-type等信息，传这个则不用穿 img_url
      * @return array
-     * @throws InvalidResponseException
-     * @throws LocalCacheException
+     * @throws \WeChat\Exceptions\InvalidResponseException
+     * @throws \WeChat\Exceptions\LocalCacheException
      */
     public function scanQRCode($img_url, $img)
     {
@@ -59,8 +57,8 @@ class Image extends BasicWeChat
      * @param string $img_url 要检测的图片 url，传这个则不用传 img 参数
      * @param string $img form-data 中媒体文件标识，有filename、filelength、content-type等信息，传这个则不用穿 img_url
      * @return array
-     * @throws InvalidResponseException
-     * @throws LocalCacheException
+     * @throws \WeChat\Exceptions\InvalidResponseException
+     * @throws \WeChat\Exceptions\LocalCacheException
      */
     public function superresolution($img_url, $img)
     {

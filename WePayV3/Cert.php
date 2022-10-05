@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------
 // | 版权所有 2014~2022 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
 // +----------------------------------------------------------------------
-// | 官方网站: http://think.ctolog.com
+// | 官方网站: https://thinkadmin.top
 // +----------------------------------------------------------------------
 // | 开源协议 ( https://mit-license.org )
 // +----------------------------------------------------------------------
@@ -25,10 +25,10 @@ use WePayV3\Contracts\DecryptAes;
  */
 class Cert extends BasicWePay
 {
-
     /**
      * 商户平台下载证书
-     * @throws InvalidResponseException
+     * @return void
+     * @throws \WeChat\Exceptions\InvalidResponseException
      */
     public function download()
     {
