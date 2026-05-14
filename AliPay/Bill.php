@@ -3,13 +3,15 @@
 // +----------------------------------------------------------------------
 // | WeChatDeveloper
 // +----------------------------------------------------------------------
-// | 版权所有 2014~2022 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
+// | 版权所有 2014~2026 ThinkAdmin [ thinkadmin.top ]
 // +----------------------------------------------------------------------
 // | 官方网站: https://thinkadmin.top
 // +----------------------------------------------------------------------
 // | 开源协议 ( https://mit-license.org )
+// | 免责声明 ( https://thinkadmin.top/disclaimer )
 // +----------------------------------------------------------------------
-// | github开源项目：https://github.com/zoujingli/WeChatDeveloper
+// | gitee 代码仓库：https://gitee.com/zoujingli/WeChatDeveloper
+// | github 代码仓库：https://github.com/zoujingli/WeChatDeveloper
 // +----------------------------------------------------------------------
 
 namespace AliPay;
@@ -18,14 +20,13 @@ use WeChat\Contracts\BasicAliPay;
 
 /**
  * 支付宝电子面单下载
- * Class Bill
  * @package AliPay
  */
 class Bill extends BasicAliPay
 {
     /**
-     * Bill constructor.
-     * @param array $options
+     * 构造函数
+     * @param array $options 支付宝配置参数
      */
     public function __construct(array $options)
     {
@@ -34,9 +35,9 @@ class Bill extends BasicAliPay
     }
 
     /**
-     * 创建数据操作
-     * @param array $options
-     * @return array|bool
+     * 获取账单下载地址
+     * @param array $options 账单参数（bill_type, bill_date 等）
+     * @return array 包含 bill_download_url 的响应数据
      * @throws \WeChat\Exceptions\InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException
      */

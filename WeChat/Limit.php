@@ -3,13 +3,15 @@
 // +----------------------------------------------------------------------
 // | WeChatDeveloper
 // +----------------------------------------------------------------------
-// | 版权所有 2014~2022 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
+// | 版权所有 2014~2026 ThinkAdmin [ thinkadmin.top ]
 // +----------------------------------------------------------------------
 // | 官方网站: https://thinkadmin.top
 // +----------------------------------------------------------------------
 // | 开源协议 ( https://mit-license.org )
+// | 免责声明 ( https://thinkadmin.top/disclaimer )
 // +----------------------------------------------------------------------
-// | github开源项目：https://github.com/zoujingli/WeChatDeveloper
+// | gitee 代码仓库：https://gitee.com/zoujingli/WeChatDeveloper
+// | github 代码仓库：https://github.com/zoujingli/WeChatDeveloper
 // +----------------------------------------------------------------------
 
 namespace WeChat;
@@ -18,14 +20,13 @@ use WeChat\Contracts\BasicWeChat;
 
 /**
  * 接口调用频次限制
- * Class Limit
  * @package WeChat
  */
 class Limit extends BasicWeChat
 {
 
     /**
-     * 公众号调用或第三方平台帮公众号调用对公众号的所有api调用（包括第三方帮其调用）次数进行清零
+     * 清空公众号 API 调用次数
      * @return array
      * @throws \WeChat\Exceptions\InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException
@@ -38,8 +39,8 @@ class Limit extends BasicWeChat
 
     /**
      * 网络检测
-     * @param string $action 执行的检测动作
-     * @param string $operator 指定平台从某个运营商进行检测
+     * @param string $action ping|dns|all
+     * @param string $operator DEFAULT|CT|CU|CM
      * @return array
      * @throws \WeChat\Exceptions\InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException
@@ -51,7 +52,7 @@ class Limit extends BasicWeChat
     }
 
     /**
-     * 获取微信服务器IP地址
+     * 获取微信服务器 IP
      * @return array
      * @throws \WeChat\Exceptions\InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException
@@ -59,7 +60,6 @@ class Limit extends BasicWeChat
     public function getCallbackIp()
     {
         $url = 'https://api.weixin.qq.com/cgi-bin/getcallbackip?access_token=ACCESS_TOKEN';
-        $this->registerApi($url, __FUNCTION__, func_get_args());
-        return $this->httpGetForJson($url);
+        return $this->callGetApi($url);
     }
 }

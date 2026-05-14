@@ -3,13 +3,15 @@
 // +----------------------------------------------------------------------
 // | WeChatDeveloper
 // +----------------------------------------------------------------------
-// | 版权所有 2014~2022 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
+// | 版权所有 2014~2026 ThinkAdmin [ thinkadmin.top ]
 // +----------------------------------------------------------------------
 // | 官方网站: https://thinkadmin.top
 // +----------------------------------------------------------------------
 // | 开源协议 ( https://mit-license.org )
+// | 免责声明 ( https://thinkadmin.top/disclaimer )
 // +----------------------------------------------------------------------
-// | github开源项目：https://github.com/zoujingli/WeChatDeveloper
+// | gitee 代码仓库：https://gitee.com/zoujingli/WeChatDeveloper
+// | github 代码仓库：https://github.com/zoujingli/WeChatDeveloper
 // +----------------------------------------------------------------------
 
 namespace WeChat\Contracts;
@@ -17,8 +19,8 @@ namespace WeChat\Contracts;
 use ArrayAccess;
 
 /**
- * Class DataArray
- * @package WeChat
+ * 数据处理类
+ * @package WeChat\Contracts
  */
 class DataArray implements ArrayAccess
 {
@@ -49,13 +51,41 @@ class DataArray implements ArrayAccess
     }
 
     /**
+     * 设置配置项值
+     * @param string $offset
+     * @param string|array|null|integer $value
+     * @return void
+     */
+    #[\ReturnTypeWillChange]
+    public function offsetSet($offset, $value)
+    {
+        if (is_null($offset)) {
+            $this->config[] = $value;
+        } else {
+            $this->config[$offset] = $value;
+        }
+    }
+
+    /**
      * 获取配置项参数
      * @param string|null $offset
-     * @return array|string|null
+     * @return array|string|null|mixed
      */
     public function get($offset = null)
     {
         return $this->offsetGet($offset);
+    }
+
+    /**
+     * 获取配置项参数
+     * @param string|null $offset
+     * @return mixed
+     */
+    #[\ReturnTypeWillChange]
+    public function offsetGet($offset = null)
+    {
+        if (is_null($offset)) return $this->config;
+        return isset($this->config[$offset]) ? $this->config[$offset] : null;
     }
 
     /**
@@ -73,21 +103,6 @@ class DataArray implements ArrayAccess
     }
 
     /**
-     * 设置配置项值
-     * @param string $offset
-     * @param string|array|null|integer $value
-     */
-    #[\ReturnTypeWillChange]
-    public function offsetSet($offset, $value)
-    {
-        if (is_null($offset)) {
-            $this->config[] = $value;
-        } else {
-            $this->config[$offset] = $value;
-        }
-    }
-
-    /**
      * 判断配置Key是否存在
      * @param string $offset
      * @return bool
@@ -101,6 +116,7 @@ class DataArray implements ArrayAccess
     /**
      * 清理配置项
      * @param string|null $offset
+     * @return void
      */
     #[\ReturnTypeWillChange]
     public function offsetUnset($offset = null)
@@ -110,19 +126,5 @@ class DataArray implements ArrayAccess
         } else {
             unset($this->config[$offset]);
         }
-    }
-
-    /**
-     * 获取配置项参数
-     * @param string|null $offset
-     * @return array|string|null
-     */
-    #[\ReturnTypeWillChange]
-    public function offsetGet($offset = null)
-    {
-        if (is_null($offset)) {
-            return $this->config;
-        }
-        return isset($this->config[$offset]) ? $this->config[$offset] : null;
     }
 }

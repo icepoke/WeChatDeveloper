@@ -3,13 +3,15 @@
 // +----------------------------------------------------------------------
 // | WeChatDeveloper
 // +----------------------------------------------------------------------
-// | 版权所有 2014~2022 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
+// | 版权所有 2014~2026 ThinkAdmin [ thinkadmin.top ]
 // +----------------------------------------------------------------------
 // | 官方网站: https://thinkadmin.top
 // +----------------------------------------------------------------------
 // | 开源协议 ( https://mit-license.org )
+// | 免责声明 ( https://thinkadmin.top/disclaimer )
 // +----------------------------------------------------------------------
-// | github开源项目：https://github.com/zoujingli/WeChatDeveloper
+// | gitee 代码仓库：https://gitee.com/zoujingli/WeChatDeveloper
+// | github 代码仓库：https://github.com/zoujingli/WeChatDeveloper
 // +----------------------------------------------------------------------
 
 namespace WePay;
@@ -18,16 +20,15 @@ use WeChat\Contracts\BasicWePay;
 
 /**
  * 微信红包支持
- * Class Redpack
  * @package WePay
  */
 class Redpack extends BasicWePay
 {
 
     /**
-     * 发放普通红包
-     * @param array $options
-     * @return array
+     * 发放普通红包（需证书）
+     * @param array $options 红包参数（mch_billno, send_name, re_openid, total_amount, total_num, wishing 等）
+     * @return array 红包发送结果
      * @throws \WeChat\Exceptions\InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException
      */
@@ -40,9 +41,9 @@ class Redpack extends BasicWePay
     }
 
     /**
-     * 发放裂变红包
-     * @param array $options
-     * @return array
+     * 发放裂变红包（需证书）
+     * @param array $options 红包参数（mch_billno, send_name, re_openid, total_amount, total_num 等，total_num>1）
+     * @return array 红包发送结果
      * @throws \WeChat\Exceptions\InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException
      */
@@ -56,8 +57,8 @@ class Redpack extends BasicWePay
 
     /**
      * 查询红包记录
-     * @param string $mchBillno 商户发放红包的商户订单号
-     * @return array
+     * @param string $mchBillno 商户红包订单号
+     * @return array 红包状态信息
      * @throws \WeChat\Exceptions\InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException
      */

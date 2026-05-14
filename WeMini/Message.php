@@ -3,13 +3,15 @@
 // +----------------------------------------------------------------------
 // | WeChatDeveloper
 // +----------------------------------------------------------------------
-// | 版权所有 2014~2022 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
+// | 版权所有 2014~2026 ThinkAdmin [ thinkadmin.top ]
 // +----------------------------------------------------------------------
 // | 官方网站: https://thinkadmin.top
 // +----------------------------------------------------------------------
 // | 开源协议 ( https://mit-license.org )
+// | 免责声明 ( https://thinkadmin.top/disclaimer )
 // +----------------------------------------------------------------------
-// | github开源项目：https://github.com/zoujingli/WeChatDeveloper
+// | gitee 代码仓库：https://gitee.com/zoujingli/WeChatDeveloper
+// | github 代码仓库：https://github.com/zoujingli/WeChatDeveloper
 // +----------------------------------------------------------------------
 
 namespace WeMini;
@@ -18,14 +20,13 @@ use WeChat\Contracts\BasicWeChat;
 
 /**
  * 小程序动态消息
- * Class Message
  * @package WeMini
  */
 class Message extends BasicWeChat
 {
     /**
-     * 动态消息，创建被分享动态消息的 activity_id
-     * @param array $data
+     * 创建动态消息 activity_id
+     * @param array $data 请求参数
      * @return array
      * @throws \WeChat\Exceptions\InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException
@@ -37,8 +38,8 @@ class Message extends BasicWeChat
     }
 
     /**
-     * 动态消息，修改被分享的动态消息
-     * @param array $data
+     * 修改动态消息
+     * @param array $data 消息数据
      * @return array
      * @throws \WeChat\Exceptions\InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException
@@ -50,8 +51,8 @@ class Message extends BasicWeChat
     }
 
     /**
-     * 下发小程序和公众号统一的服务消息
-     * @param array $data
+     * 统一服务消息下发
+     * @param array $data 消息内容
      * @return array
      * @throws \WeChat\Exceptions\InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException

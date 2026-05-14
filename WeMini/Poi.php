@@ -3,13 +3,15 @@
 // +----------------------------------------------------------------------
 // | WeChatDeveloper
 // +----------------------------------------------------------------------
-// | 版权所有 2014~2022 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
+// | 版权所有 2014~2026 ThinkAdmin [ thinkadmin.top ]
 // +----------------------------------------------------------------------
 // | 官方网站: https://thinkadmin.top
 // +----------------------------------------------------------------------
 // | 开源协议 ( https://mit-license.org )
+// | 免责声明 ( https://thinkadmin.top/disclaimer )
 // +----------------------------------------------------------------------
-// | github开源项目：https://github.com/zoujingli/WeChatDeveloper
+// | gitee 代码仓库：https://gitee.com/zoujingli/WeChatDeveloper
+// | github 代码仓库：https://github.com/zoujingli/WeChatDeveloper
 // +----------------------------------------------------------------------
 
 namespace WeMini;
@@ -17,18 +19,17 @@ namespace WeMini;
 use WeChat\Contracts\BasicWeChat;
 
 /**
- * 微信小程序地址管理
- * Class Poi
+ * 小程序地址管理
  * @package WeMini
  */
 class Poi extends BasicWeChat
 {
     /**
-     * 添加地点
-     * @param string $related_name 经营资质主体
-     * @param string $related_credential 经营资质证件号
-     * @param string $related_address 经营资质地址
-     * @param string $related_proof_material 相关证明材料照片临时素材mediaid
+     * 添加附近地点
+     * @param string $related_name 经营主体
+     * @param string $related_credential 证件号
+     * @param string $related_address 地址
+     * @param string $related_proof_material 证明材料 media_id
      * @return array
      * @throws \WeChat\Exceptions\InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException
@@ -45,8 +46,8 @@ class Poi extends BasicWeChat
 
     /**
      * 查看地点列表
-     * @param integer $page 起始页id（从1开始计数）
-     * @param integer $page_rows 每页展示个数（最多1000个）
+     * @param int $page 页码从1开始
+     * @param int $page_rows 每页数量(<=1000)
      * @return array
      * @throws \WeChat\Exceptions\InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException
@@ -58,8 +59,8 @@ class Poi extends BasicWeChat
     }
 
     /**
-     * 删除地点
-     * @param string $poi_id 附近地点ID
+     * 删除附近地点
+     * @param string $poi_id 地点ID
      * @return array
      * @throws \WeChat\Exceptions\InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException
@@ -71,9 +72,9 @@ class Poi extends BasicWeChat
     }
 
     /**
-     * 展示/取消展示附近小程序
-     * @param string $poi_id 附近地点ID
-     * @param string $status 0：取消展示；1：展示
+     * 设置附近小程序展示
+     * @param string $poi_id 地点ID
+     * @param string $status 0 取消 | 1 展示
      * @return array
      * @throws \WeChat\Exceptions\InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException

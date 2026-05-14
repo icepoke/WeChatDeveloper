@@ -3,13 +3,15 @@
 // +----------------------------------------------------------------------
 // | WeChatDeveloper
 // +----------------------------------------------------------------------
-// | 版权所有 2014~2022 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
+// | 版权所有 2014~2026 ThinkAdmin [ thinkadmin.top ]
 // +----------------------------------------------------------------------
 // | 官方网站: https://thinkadmin.top
 // +----------------------------------------------------------------------
 // | 开源协议 ( https://mit-license.org )
+// | 免责声明 ( https://thinkadmin.top/disclaimer )
 // +----------------------------------------------------------------------
-// | github开源项目：https://github.com/zoujingli/WeChatDeveloper
+// | gitee 代码仓库：https://gitee.com/zoujingli/WeChatDeveloper
+// | github 代码仓库：https://github.com/zoujingli/WeChatDeveloper
 // +----------------------------------------------------------------------
 
 namespace WePayV3;
@@ -20,28 +22,43 @@ use WePayV3\Contracts\DecryptAes;
 
 /**
  * 平台证书管理
- * Class Cert
  * @package WePayV3
  */
 class Cert extends BasicWePay
 {
+
     /**
-     * 商户平台下载证书
+     * 自动配置平台证书
+     * @var bool
+     */
+    protected $autoCert = false;
+
+    /**
+     * 下载并缓存平台证书
      * @return void
      * @throws \WeChat\Exceptions\InvalidResponseException
      */
     public function download()
     {
         try {
-            $aes = new DecryptAes($this->config['mch_v3_key']);
+            $certs = [];
             $result = $this->doRequest('GET', '/v3/certificates');
-            foreach ($result['data'] as $vo) {
-                $this->tmpFile($vo['serial_no'], $aes->decryptToString(
-                    $vo['encrypt_certificate']['associated_data'],
-                    $vo['encrypt_certificate']['nonce'],
-                    $vo['encrypt_certificate']['ciphertext']
-                ));
+            if (empty($result['data']) && !empty($result['message'])) {
+                throw new InvalidResponseException($result['message']);
             }
+            $decrypt = new DecryptAes($this->config['mch_v3_key']);
+            foreach ($result['data'] as $vo) {
+                $certs[$vo['serial_no']] = [
+                    'expire'  => strtotime($vo['expire_time']),
+                    'serial'  => $vo['serial_no'],
+                    'content' => $decrypt->decryptToString(
+                        $vo['encrypt_certificate']['associated_data'],
+                        $vo['encrypt_certificate']['nonce'],
+                        $vo['encrypt_certificate']['ciphertext']
+                    )
+                ];
+            }
+            $this->tmpFile("{$this->config['mch_id']}_certs", $certs);
         } catch (\Exception $exception) {
             throw new InvalidResponseException($exception->getMessage(), $exception->getCode());
         }

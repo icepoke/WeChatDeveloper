@@ -3,13 +3,15 @@
 // +----------------------------------------------------------------------
 // | WeChatDeveloper
 // +----------------------------------------------------------------------
-// | 版权所有 2014~2022 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
+// | 版权所有 2014~2026 ThinkAdmin [ thinkadmin.top ]
 // +----------------------------------------------------------------------
 // | 官方网站: https://thinkadmin.top
 // +----------------------------------------------------------------------
 // | 开源协议 ( https://mit-license.org )
+// | 免责声明 ( https://thinkadmin.top/disclaimer )
 // +----------------------------------------------------------------------
-// | github开源项目：https://github.com/zoujingli/WeChatDeveloper
+// | gitee 代码仓库：https://gitee.com/zoujingli/WeChatDeveloper
+// | github 代码仓库：https://github.com/zoujingli/WeChatDeveloper
 // +----------------------------------------------------------------------
 
 namespace WePay;
@@ -18,16 +20,15 @@ use WeChat\Contracts\BasicWePay;
 
 /**
  * 微信扩展上报海关
- * Class Custom
  * @package WePay
  */
 class Custom extends BasicWePay
 {
 
     /**
-     * 订单附加信息提交接口
-     * @param array $options
-     * @return array
+     * 海关申报：订单附加信息提交
+     * @param array $options 申报参数（transaction_id 或 out_trade_no，customs，mch_customs_no 等）
+     * @return array 申报结果
      * @throws \WeChat\Exceptions\InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException
      */
@@ -38,9 +39,9 @@ class Custom extends BasicWePay
     }
 
     /**
-     * 订单附加信息查询接口
-     * @param array $options
-     * @return array
+     * 海关申报：订单附加信息查询
+     * @param array $options 查询参数（transaction_id 或 out_trade_no，customs，mch_customs_no 等）
+     * @return array 申报状态
      * @throws \WeChat\Exceptions\InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException
      */
@@ -52,9 +53,9 @@ class Custom extends BasicWePay
 
 
     /**
-     * 订单附加信息重推接口
-     * @param array $options
-     * @return array
+     * 海关申报：重推申报信息
+     * @param array $options 重推参数（transaction_id 或 out_trade_no，customs，mch_customs_no 等）
+     * @return array 重推结果
      * @throws \WeChat\Exceptions\InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException
      */

@@ -3,13 +3,15 @@
 // +----------------------------------------------------------------------
 // | WeChatDeveloper
 // +----------------------------------------------------------------------
-// | 版权所有 2014~2022 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
+// | 版权所有 2014~2026 ThinkAdmin [ thinkadmin.top ]
 // +----------------------------------------------------------------------
 // | 官方网站: https://thinkadmin.top
 // +----------------------------------------------------------------------
 // | 开源协议 ( https://mit-license.org )
+// | 免责声明 ( https://thinkadmin.top/disclaimer )
 // +----------------------------------------------------------------------
-// | github开源项目：https://github.com/zoujingli/WeChatDeveloper
+// | gitee 代码仓库：https://gitee.com/zoujingli/WeChatDeveloper
+// | github 代码仓库：https://github.com/zoujingli/WeChatDeveloper
 // +----------------------------------------------------------------------
 
 namespace WeChat;
@@ -20,16 +22,15 @@ use WeChat\Exceptions\InvalidResponseException;
 
 /**
  * 微信素材管理
- * Class Media
  * @package WeChat
  */
 class Media extends BasicWeChat
 {
     /**
      * 新增临时素材
-     * @param string $filename 文件名称
-     * @param string $type 媒体文件类型(image|voice|video|thumb)
-     * @return array
+     * @param string $filename 本地文件路径
+     * @param string $type 媒体类型 image|voice|video|thumb
+     * @return array 上传结果（media_id 等）
      * @throws \WeChat\Exceptions\InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException
      */
@@ -39,14 +40,13 @@ class Media extends BasicWeChat
             throw new InvalidResponseException('Invalid Media Type.', '0');
         }
         $url = "https://api.weixin.qq.com/cgi-bin/media/upload?access_token=ACCESS_TOKEN&type={$type}";
-        $this->registerApi($url, __FUNCTION__, func_get_args());
-        return $this->httpPostForJson($url, ['media' => Tools::createCurlFile($filename)], false);
+        return $this->callPostApi($url, ['media' => Tools::createCurlFile($filename)], false);
     }
 
     /**
      * 获取临时素材
-     * @param string $media_id
-     * @param string $outType 返回处理函数
+     * @param string $media_id 媒体 ID
+     * @param string $outType 可选：回调处理或 'url' 仅返回 URL
      * @return array|string
      * @throws \WeChat\Exceptions\InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException
@@ -55,6 +55,7 @@ class Media extends BasicWeChat
     {
         $url = "https://api.weixin.qq.com/cgi-bin/media/get?access_token=ACCESS_TOKEN&media_id={$media_id}";
         $this->registerApi($url, __FUNCTION__, func_get_args());
+        if ($outType == 'url') return $url;
         $result = Tools::get($url);
         if (is_array($json = json_decode($result, true))) {
             if (!$this->isTry && isset($json['errcode']) && in_array($json['errcode'], ['40014', '40001', '41001', '42001'])) {
@@ -67,8 +68,8 @@ class Media extends BasicWeChat
     }
 
     /**
-     * 新增图文素材
-     * @param array $data 文件名称
+     * 新增永久图文素材
+     * @param array $data 图文列表 articles
      * @return array
      * @throws \WeChat\Exceptions\InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException
@@ -76,14 +77,13 @@ class Media extends BasicWeChat
     public function addNews($data)
     {
         $url = "https://api.weixin.qq.com/cgi-bin/material/add_news?access_token=ACCESS_TOKEN";
-        $this->registerApi($url, __FUNCTION__, func_get_args());
-        return $this->httpPostForJson($url, $data);
+        return $this->callPostApi($url, $data);
     }
 
     /**
      * 更新图文素材
-     * @param string $media_id 要修改的图文消息的id
-     * @param int $index 要更新的文章在图文消息中的位置（多图文消息时，此字段才有意义），第一篇为0
+     * @param string $media_id 图文 media_id
+     * @param int $index 文章位置（0 开始）
      * @param array $news 文章内容
      * @return array
      * @throws \WeChat\Exceptions\InvalidResponseException
@@ -91,31 +91,28 @@ class Media extends BasicWeChat
      */
     public function updateNews($media_id, $index, $news)
     {
-        $data = ['media_id' => $media_id, 'index' => $index, 'articles' => $news];
         $url = "https://api.weixin.qq.com/cgi-bin/material/update_news?access_token=ACCESS_TOKEN";
-        $this->registerApi($url, __FUNCTION__, func_get_args());
-        return $this->httpPostForJson($url, $data);
+        return $this->callPostApi($url, ['media_id' => $media_id, 'index' => $index, 'articles' => $news]);
     }
 
     /**
-     * 上传图文消息内的图片获取URL
-     * @param mixed $filename
-     * @return array
+     * 上传图文消息内的图片，获取 URL
+     * @param string $filename 本地文件
+     * @return array 含 url
      * @throws \WeChat\Exceptions\InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException
      */
     public function uploadImg($filename)
     {
         $url = "https://api.weixin.qq.com/cgi-bin/media/uploadimg?access_token=ACCESS_TOKEN";
-        $this->registerApi($url, __FUNCTION__, func_get_args());
-        return $this->httpPostForJson($url, ['media' => Tools::createCurlFile($filename)], false);
+        return $this->callPostApi($url, ['media' => Tools::createCurlFile($filename)], false);
     }
 
     /**
      * 新增其他类型永久素材
-     * @param mixed $filename 文件名称
-     * @param string $type 媒体文件类型(image|voice|video|thumb)
-     * @param array $description 包含素材的描述信息
+     * @param string $filename 本地文件路径
+     * @param string $type 媒体类型 image|voice|video|thumb
+     * @param array $description 视频描述等
      * @return array
      * @throws \WeChat\Exceptions\InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException
@@ -126,14 +123,13 @@ class Media extends BasicWeChat
             throw new InvalidResponseException('Invalid Media Type.', '0');
         }
         $url = "https://api.weixin.qq.com/cgi-bin/material/add_material?access_token=ACCESS_TOKEN&type={$type}";
-        $this->registerApi($url, __FUNCTION__, func_get_args());
-        return $this->httpPostForJson($url, ['media' => Tools::createCurlFile($filename), 'description' => Tools::arr2json($description)], false);
+        return $this->callPostApi($url, ['media' => Tools::createCurlFile($filename), 'description' => Tools::arr2json($description)], false);
     }
 
     /**
      * 获取永久素材
-     * @param string $media_id
-     * @param null|string $outType 输出类型
+     * @param string $media_id 媒体 ID
+     * @param null|string $outType 回调处理或 'url' 返回地址
      * @return array|string
      * @throws \WeChat\Exceptions\InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException
@@ -142,6 +138,7 @@ class Media extends BasicWeChat
     {
         $url = "https://api.weixin.qq.com/cgi-bin/material/get_material?access_token=ACCESS_TOKEN";
         $this->registerApi($url, __FUNCTION__, func_get_args());
+        if ($outType == 'url') return $url;
         $result = Tools::post($url, ['media_id' => $media_id]);
         if (is_array($json = json_decode($result, true))) {
             if (!$this->isTry && isset($json['errcode']) && in_array($json['errcode'], ['40014', '40001', '41001', '42001'])) {
@@ -155,16 +152,15 @@ class Media extends BasicWeChat
 
     /**
      * 删除永久素材
-     * @param string $media_id
+     * @param string $mediaId 媒体 ID
      * @return array
      * @throws \WeChat\Exceptions\InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException
      */
-    public function delMaterial($media_id)
+    public function delMaterial($mediaId)
     {
         $url = "https://api.weixin.qq.com/cgi-bin/material/del_material?access_token=ACCESS_TOKEN";
-        $this->registerApi($url, __FUNCTION__, func_get_args());
-        return $this->httpPostForJson($url, ['media_id' => $media_id]);
+        return $this->httpPostForJson($url, ['media_id' => $mediaId]);
     }
 
     /**
@@ -176,15 +172,14 @@ class Media extends BasicWeChat
     public function getMaterialCount()
     {
         $url = "https://api.weixin.qq.com/cgi-bin/material/get_materialcount?access_token=ACCESS_TOKEN";
-        $this->registerApi($url, __FUNCTION__, func_get_args());
-        return $this->httpGetForJson($url);
+        return $this->callGetApi($url);
     }
 
     /**
      * 获取素材列表
-     * @param string $type
-     * @param int $offset
-     * @param int $count
+     * @param string $type image|voice|video|news
+     * @param int $offset 起始位置
+     * @param int $count 拉取数量
      * @return array
      * @throws \WeChat\Exceptions\InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException
@@ -195,7 +190,6 @@ class Media extends BasicWeChat
             throw new InvalidResponseException('Invalid Media Type.', '0');
         }
         $url = "https://api.weixin.qq.com/cgi-bin/material/batchget_material?access_token=ACCESS_TOKEN";
-        $this->registerApi($url, __FUNCTION__, func_get_args());
-        return $this->httpPostForJson($url, ['type' => $type, 'offset' => $offset, 'count' => $count]);
+        return $this->callPostApi($url, ['type' => $type, 'offset' => $offset, 'count' => $count]);
     }
 }

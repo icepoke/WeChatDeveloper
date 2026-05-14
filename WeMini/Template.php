@@ -3,13 +3,15 @@
 // +----------------------------------------------------------------------
 // | WeChatDeveloper
 // +----------------------------------------------------------------------
-// | 版权所有 2014~2022 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
+// | 版权所有 2014~2026 ThinkAdmin [ thinkadmin.top ]
 // +----------------------------------------------------------------------
 // | 官方网站: https://thinkadmin.top
 // +----------------------------------------------------------------------
 // | 开源协议 ( https://mit-license.org )
+// | 免责声明 ( https://thinkadmin.top/disclaimer )
 // +----------------------------------------------------------------------
-// | github开源项目：https://github.com/zoujingli/WeChatDeveloper
+// | gitee 代码仓库：https://gitee.com/zoujingli/WeChatDeveloper
+// | github 代码仓库：https://github.com/zoujingli/WeChatDeveloper
 // +----------------------------------------------------------------------
 
 namespace WeMini;
@@ -17,15 +19,14 @@ namespace WeMini;
 use WeChat\Contracts\BasicWeChat;
 
 /**
- * 公众号小程序模板消息支持
- * Class Mini
- * @package WeChat
+ * 小程序模板消息
+ * @package WeMini
  */
 class Template extends BasicWeChat
 {
 
     /**
-     * 获取小程序模板库标题列表
+     * 获取模板库标题列表
      * @return array
      * @throws \WeChat\Exceptions\InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException
@@ -37,8 +38,8 @@ class Template extends BasicWeChat
     }
 
     /**
-     * 获取模板库某个模板标题下关键词库
-     * @param string $template_id 模板标题id，可通过接口获取，也可登录小程序后台查看获取
+     * 获取模板关键词库
+     * @param string $template_id 模板标题ID
      * @return array
      * @throws \WeChat\Exceptions\InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException
@@ -50,9 +51,9 @@ class Template extends BasicWeChat
     }
 
     /**
-     * 组合模板并添加至帐号下的个人模板库
-     * @param string $template_id 模板标题id，可通过接口获取，也可登录小程序后台查看获取
-     * @param array $keyword_id_list 开发者自行组合好的模板关键词列表，关键词顺序可以自由搭配（例如[3,5,4]或[4,5,3]），最多支持10个关键词组合
+     * 组合关键词并添加模板
+     * @param string $template_id 模板标题ID
+     * @param array $keyword_id_list 关键词 ID 列表
      * @return array
      * @throws \WeChat\Exceptions\InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException
@@ -64,7 +65,7 @@ class Template extends BasicWeChat
     }
 
     /**
-     * 获取帐号下已存在的模板列表
+     * 获取帐号模板列表
      * @return array
      * @throws \WeChat\Exceptions\InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException
@@ -76,8 +77,8 @@ class Template extends BasicWeChat
     }
 
     /**
-     * 删除模板消息
-     * @param string $template_id 要删除的模板id
+     * 删除模板
+     * @param string $template_id 模板 ID
      * @return array
      * @throws \WeChat\Exceptions\InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException
@@ -90,7 +91,7 @@ class Template extends BasicWeChat
 
     /**
      * 发送模板消息
-     * @param array $data 发送的消息对象数组
+     * @param array $data 消息体（touser, template_id, form_id, data 等）
      * @return array
      * @throws \WeChat\Exceptions\InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException

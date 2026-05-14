@@ -3,13 +3,15 @@
 // +----------------------------------------------------------------------
 // | WeChatDeveloper
 // +----------------------------------------------------------------------
-// | 版权所有 2014~2022 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
+// | 版权所有 2014~2026 ThinkAdmin [ thinkadmin.top ]
 // +----------------------------------------------------------------------
 // | 官方网站: https://thinkadmin.top
 // +----------------------------------------------------------------------
 // | 开源协议 ( https://mit-license.org )
+// | 免责声明 ( https://thinkadmin.top/disclaimer )
 // +----------------------------------------------------------------------
-// | github开源项目：https://github.com/zoujingli/WeChatDeveloper
+// | gitee 代码仓库：https://gitee.com/zoujingli/WeChatDeveloper
+// | github 代码仓库：https://github.com/zoujingli/WeChatDeveloper
 // +----------------------------------------------------------------------
 
 namespace AliPay;
@@ -18,15 +20,14 @@ use WeChat\Contracts\BasicAliPay;
 
 /**
  * 支付宝标准接口
- * Class Trade
  * @package AliPay
  */
 class Trade extends BasicAliPay
 {
 
     /**
-     * 设置交易接口地址
-     * @param string $method
+     * 设置交易接口方法名
+     * @param string $method 如 alipay.trade.close 等
      * @return $this
      */
     public function setMethod($method)
@@ -36,7 +37,7 @@ class Trade extends BasicAliPay
     }
 
     /**
-     * 获取交易接口地址
+     * 获取当前交易接口方法名
      * @return string
      */
     public function getMethod()
@@ -45,8 +46,8 @@ class Trade extends BasicAliPay
     }
 
     /**
-     * 设置接口公共参数
-     * @param array $option
+     * 设置公共参数（透传到 options）
+     * @param array $option key-value 公共参数
      * @return Trade
      */
     public function setOption($option = [])
@@ -58,7 +59,7 @@ class Trade extends BasicAliPay
     }
 
     /**
-     * 获取接口公共参数
+     * 获取当前公共参数
      * @return array|string|null
      */
     public function getOption()
@@ -67,9 +68,9 @@ class Trade extends BasicAliPay
     }
 
     /**
-     * 执行通过接口
-     * @param array $options
-     * @return array|boolean
+     * 执行当前设置的交易接口
+     * @param array $options 业务参数（写入 biz_content）
+     * @return array 接口返回结果
      * @throws \WeChat\Exceptions\InvalidResponseException
      * @throws \WeChat\Exceptions\LocalCacheException
      */

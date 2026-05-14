@@ -3,13 +3,15 @@
 // +----------------------------------------------------------------------
 // | WeChatDeveloper
 // +----------------------------------------------------------------------
-// | 版权所有 2014~2022 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
+// | 版权所有 2014~2026 ThinkAdmin [ thinkadmin.top ]
 // +----------------------------------------------------------------------
 // | 官方网站: https://thinkadmin.top
 // +----------------------------------------------------------------------
 // | 开源协议 ( https://mit-license.org )
+// | 免责声明 ( https://thinkadmin.top/disclaimer )
 // +----------------------------------------------------------------------
-// | github开源项目：https://github.com/zoujingli/WeChatDeveloper
+// | gitee 代码仓库：https://gitee.com/zoujingli/WeChatDeveloper
+// | github 代码仓库：https://github.com/zoujingli/WeChatDeveloper
 // +----------------------------------------------------------------------
 
 use WeChat\Contracts\DataArray;
@@ -18,7 +20,6 @@ use WeChat\Exceptions\InvalidInstanceException;
 /**
  * 加载缓存器
  *
- * Class We
  * @library WeChatDeveloper
  * @author Anyon<zoujingli@qq.com>
  * @date 2018/05/24 13:23
@@ -43,7 +44,7 @@ use WeChat\Exceptions\InvalidInstanceException;
  * @method \WeChat\Pay WeChatPay($options = []) static 微信支付商户
  * @method \WeChat\Product WeChatProduct($options = []) static 微信商店管理
  * @method \WeChat\Qrcode WeChatQrcode($options = []) static 微信二维码管理
- * @method \WeChat\Receive WeChatReceive($options = []) static 微信推送管理
+ * @method \WeChat\Receive WeChatReceive($options = [], $showEchoStr = true) static 微信推送管理
  * @method \WeChat\Scan WeChatScan($options = []) static 微信扫一扫接入管理
  * @method \WeChat\Script WeChatScript($options = []) static 微信前端支持
  * @method \WeChat\Shake WeChatShake($options = []) static 微信揺一揺周边
@@ -57,6 +58,7 @@ use WeChat\Exceptions\InvalidInstanceException;
  * ----- WeMini -----
  * @method \WeMini\Crypt WeMiniCrypt($options = []) static 小程序数据加密处理
  * @method \WeMini\Delivery WeMiniDelivery($options = []) static 小程序即时配送
+ * @method \WeMini\Shipping WeMiniShipping($options = []) static 小程序发货信息
  * @method \WeMini\Guide WeMiniGuide($options = []) static 小程序导购助手
  * @method \WeMini\Image WeMiniImage($options = []) static 小程序图像处理
  * @method \WeMini\Live WeMiniLive($options = []) static 小程序直播接口
@@ -84,6 +86,7 @@ use WeChat\Exceptions\InvalidInstanceException;
  * @method \WePay\Redpack WePayRedpack($options = []) static 微信红包支持
  * @method \WePay\Transfers WePayTransfers($options = []) static 微信商户打款到零钱
  * @method \WePay\TransfersBank WePayTransfersBank($options = []) static 微信商户打款到银行卡
+ * @method \WePay\ProfitSharing WePayProfitSharing($options = []) static 微信分账
  */
 class We
 {
@@ -91,7 +94,7 @@ class We
      * 定义当前版本
      * @var string
      */
-    const VERSION = '1.2.36';
+    const VERSION = '1.2.54';
 
     /**
      * 静态配置

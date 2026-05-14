@@ -3,13 +3,15 @@
 // +----------------------------------------------------------------------
 // | WeChatDeveloper
 // +----------------------------------------------------------------------
-// | 版权所有 2014~2022 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
+// | 版权所有 2014~2026 ThinkAdmin [ thinkadmin.top ]
 // +----------------------------------------------------------------------
 // | 官方网站: https://thinkadmin.top
 // +----------------------------------------------------------------------
 // | 开源协议 ( https://mit-license.org )
+// | 免责声明 ( https://thinkadmin.top/disclaimer )
 // +----------------------------------------------------------------------
-// | github开源项目：https://github.com/zoujingli/WeChatDeveloper
+// | gitee 代码仓库：https://gitee.com/zoujingli/WeChatDeveloper
+// | github 代码仓库：https://github.com/zoujingli/WeChatDeveloper
 // +----------------------------------------------------------------------
 
 namespace WeChat;
@@ -18,28 +20,26 @@ use WeChat\Contracts\BasicWeChat;
 
 /**
  * 模板消息
- * Class Template
  * @package WeChat
  */
 class Template extends BasicWeChat
 {
     /**
-     * 设置所属行业
-     * @param string $industry_id1 公众号模板消息所属行业编号
-     * @param string $industry_id2 公众号模板消息所属行业编号
+     * 设置模板消息所属行业
+     * @param string $industryId1 行业编号
+     * @param string $industryId2 行业编号
      * @return array
      * @throws Exceptions\InvalidResponseException
      * @throws Exceptions\LocalCacheException
      */
-    public function setIndustry($industry_id1, $industry_id2)
+    public function setIndustry($industryId1, $industryId2)
     {
         $url = "https://api.weixin.qq.com/cgi-bin/template/api_set_industry?access_token=ACCESS_TOKEN";
-        $this->registerApi($url, __FUNCTION__, func_get_args());
-        return $this->httpPostForJson($url, ['industry_id1' => $industry_id1, 'industry_id2' => $industry_id2]);
+        return $this->callPostApi($url, ['industry_id1' => $industryId1, 'industry_id2' => $industryId2]);
     }
 
     /**
-     * 获取设置的行业信息
+     * 获取已设置的行业信息
      * @return array
      * @throws Exceptions\InvalidResponseException
      * @throws Exceptions\LocalCacheException
@@ -47,26 +47,25 @@ class Template extends BasicWeChat
     public function getIndustry()
     {
         $url = "https://api.weixin.qq.com/cgi-bin/template/get_industry?access_token=ACCESS_TOKEN";
-        $this->registerApi($url, __FUNCTION__, func_get_args());
-        return $this->httpGetForJson($url);
+        return $this->callGetApi($url);
     }
 
     /**
-     * 获得模板ID
-     * @param string $tpl_id 板库中模板的编号，有“TM**”和“OPENTMTM**”等形式
+     * 领取模板 ID
+     * @param string $templateIdShort 模板编号（如 TM** 或 OPENTMTM**）
+     * @param array $keywordNameList 选用关键词
      * @return array
      * @throws Exceptions\InvalidResponseException
      * @throws Exceptions\LocalCacheException
      */
-    public function addTemplate($tpl_id)
+    public function addTemplate($templateIdShort, $keywordNameList = [])
     {
         $url = "https://api.weixin.qq.com/cgi-bin/template/api_add_template?access_token=ACCESS_TOKEN";
-        $this->registerApi($url, __FUNCTION__, func_get_args());
-        return $this->httpPostForJson($url, ['template_id_short' => $tpl_id]);
+        return $this->callPostApi($url, ['template_id_short' => $templateIdShort, 'keyword_name_list' => $keywordNameList]);
     }
 
     /**
-     * 获取模板列表
+     * 获取私有模板列表
      * @return array
      * @throws Exceptions\InvalidResponseException
      * @throws Exceptions\LocalCacheException
@@ -74,27 +73,25 @@ class Template extends BasicWeChat
     public function getAllPrivateTemplate()
     {
         $url = "https://api.weixin.qq.com/cgi-bin/template/get_all_private_template?access_token=ACCESS_TOKEN";
-        $this->registerApi($url, __FUNCTION__, func_get_args());
-        return $this->httpGetForJson($url);
+        return $this->callGetApi($url);
     }
 
     /**
-     * 删除模板ID
-     * @param string $tpl_id 公众帐号下模板消息ID
+     * 删除模板
+     * @param string $tplId 模板 ID
      * @return array
      * @throws Exceptions\InvalidResponseException
      * @throws Exceptions\LocalCacheException
      */
-    public function delPrivateTemplate($tpl_id)
+    public function delPrivateTemplate($tplId)
     {
         $url = "https://api.weixin.qq.com/cgi-bin/template/del_private_template?access_token=ACCESS_TOKEN";
-        $this->registerApi($url, __FUNCTION__, func_get_args());
-        return $this->httpPostForJson($url, ['template_id' => $tpl_id]);
+        return $this->callPostApi($url, ['template_id' => $tplId]);
     }
 
     /**
      * 发送模板消息
-     * @param array $data
+     * @param array $data 消息内容（touser, template_id, data 等）
      * @return array
      * @throws Exceptions\InvalidResponseException
      * @throws Exceptions\LocalCacheException
@@ -102,9 +99,6 @@ class Template extends BasicWeChat
     public function send(array $data)
     {
         $url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=ACCESS_TOKEN";
-        $this->registerApi($url, __FUNCTION__, func_get_args());
-        return $this->httpPostForJson($url, $data);
+        return $this->callPostApi($url, $data);
     }
-
-
 }

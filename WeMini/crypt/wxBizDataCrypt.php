@@ -2,7 +2,6 @@
 
 /**
  * 对微信小程序用户加密数据的解密示例代码
- * Class WXBizDataCrypt
  * @copyright Copyright (c) 1998-2014 Tencent Inc.
  */
 class WXBizDataCrypt
@@ -46,7 +45,8 @@ class WXBizDataCrypt
         if ($dataObj == null) {
             return ErrorCode::$IllegalBuffer;
         }
-        if ($dataObj->watermark->appid != $this->appid) {
+        // 兼容新版本无 watermark 的情况
+        if (isset($dataObj->watermark) && $dataObj->watermark->appid != $this->appid) {
             return ErrorCode::$IllegalBuffer;
         }
         $data = $result;

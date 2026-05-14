@@ -3,13 +3,15 @@
 // +----------------------------------------------------------------------
 // | WeChatDeveloper
 // +----------------------------------------------------------------------
-// | 版权所有 2014~2022 广州楚才信息科技有限公司 [ http://www.cuci.cc ]
+// | 版权所有 2014~2026 ThinkAdmin [ thinkadmin.top ]
 // +----------------------------------------------------------------------
 // | 官方网站: https://thinkadmin.top
 // +----------------------------------------------------------------------
 // | 开源协议 ( https://mit-license.org )
+// | 免责声明 ( https://thinkadmin.top/disclaimer )
 // +----------------------------------------------------------------------
-// | github开源项目：https://github.com/zoujingli/WeChatDeveloper
+// | gitee 代码仓库：https://gitee.com/zoujingli/WeChatDeveloper
+// | github 代码仓库：https://github.com/zoujingli/WeChatDeveloper
 // +----------------------------------------------------------------------
 
 namespace AliPay;
@@ -18,14 +20,13 @@ use WeChat\Contracts\BasicAliPay;
 
 /**
  * 支付宝网站支付
- * Class Web
  * @package AliPay
  */
 class Web extends BasicAliPay
 {
     /**
-     * Web constructor.
-     * @param array $options
+     * 构造函数
+     * @param array $options 支付宝配置参数
      */
     public function __construct(array $options)
     {
@@ -35,9 +36,9 @@ class Web extends BasicAliPay
     }
 
     /**
-     * 创建数据操作
-     * @param array $options
-     * @return string
+     * 生成网站支付表单HTML
+     * @param array $options 订单参数（out_trade_no, total_amount, subject等）
+     * @return string 支付表单HTML（自动提交到支付宝）
      */
     public function apply($options)
     {
